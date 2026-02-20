@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package spark.connect;
+
+service SparkConnectService {
+  rpc ExecutePlan(ExecutePlanRequest) returns (stream ExecutePlanResponse);
+}
+
+message ExecutePlanRequest {
+  string session_id = 1;
+  oneof command {
+    SqlCommand sql_command = 2;
+  }
+}
+
+message SqlCommand {
+  string query = 1;
+  map<string, string> table_paths = 2;
+  uint32 partitions = 3;
+}
+
+message ExecutePlanResponse {
+  oneof response {
+    Schema schema = 1;
+    JsonRows rows = 2;
+    ExecuteMetrics metrics = 3;
+    Error error = 4;
+  }
+}
+
+message Schema {
+  repeated Field fields = 1;
+}
+
+message Field {
+  string name = 1;
+  string dtype = 2;
+}
+
+message JsonRows {
+  repeated string rows = 1;
+}
+
+message ExecuteMetrics {
+  uint64 elapsed_ms = 1;
+  uint64 row_count = 2;
+}
+
+message Error {
+  string message = 1;
+}
