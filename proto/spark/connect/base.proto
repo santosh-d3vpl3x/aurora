@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package spark.connect;
+
+service SparkConnectService {
+  rpc ExecutePlan(ExecutePlanRequest) returns (ExecutePlanResponse);
+}
+
+message ExecutePlanRequest {
+  string session_id = 1;
+
+  oneof plan {
+    SqlPlan sql = 2;
+    ProjectionPlan projection = 3;
+  }
+}
+
+message SqlPlan {
+  string query = 1;
+}
+
+message ProjectionPlan {
+  repeated int64 values = 1;
+  int64 add_scalar = 2;
+}
+
+message ExecutePlanResponse {
+  string session_id = 1;
+  string json_rows = 2;
+  uint64 row_count = 3;
+}
