@@ -190,6 +190,10 @@ impl SparkConnectService for SparkConnectServer {
                     key: "aurora.cached_operation_count".to_string(),
                     value: op_count.to_string(),
                 },
+                KeyValue {
+                    key: "spark.sql.execution.arrow.pyspark.selfDestruct.enabled".to_string(),
+                    value: "false".to_string(),
+                },
             ],
             warnings: vec![],
         }))
@@ -326,7 +330,10 @@ fn evaluate_spark_plan(
     operation_id: &str,
     root: &[u8],
 ) -> Result<(Vec<u8>, usize, Vec<Field>), String> {
-    let out = ProcessCommand::new("python3")
+    let evaluator_python =
+        std::env::var("AURORA_PLAN_EVAL_PYTHON").unwrap_or_else(|_| "python3".to_string());
+
+    let out = ProcessCommand::new(evaluator_python)
         .arg("scripts/plan_eval.py")
         .arg("--root-b64")
         .arg(base64::engine::general_purpose::STANDARD.encode(root))

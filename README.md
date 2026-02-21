@@ -39,6 +39,7 @@ cargo run
 Environment variables:
 
 - `SPARK_CONNECT_ADDR` (default: `0.0.0.0:15002`)
+- `AURORA_PLAN_EVAL_PYTHON` (default: `python3`) to select the Python interpreter used for Spark plan evaluation.
 
 ## SQL request model
 
@@ -56,3 +57,15 @@ select vendor_id, count(*) from trips group by vendor_id
 ```
 
 If `table_paths` is empty, the server registers a built-in in-memory table `numbers(id, value)` for MVP usage.
+
+## PySpark range matrix (50 checks)
+
+Run this end-to-end validation loop from a PySpark Connect client point of view:
+
+```bash
+AURORA_PLAN_EVAL_PYTHON=~/.pyenv/versions/3.11.14/bin/python cargo run
+# in another shell
+~/.pyenv/versions/3.11.14/bin/python scripts/pyspark_range_matrix.py
+```
+
+The script executes 50 assertions over `spark.range` workflows (count, repartition, `selectExpr("id + n")`, limit/sort/hint/rename, collect, and `show()` paths).
