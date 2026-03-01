@@ -1,0 +1,6 @@
+# Architecture docs require explicit human approval
+/*.md           @santosh
+/docs/          @santosh
+
+# All code changes
+/aurora/        @santosh
