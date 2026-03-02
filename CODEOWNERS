@@ -1,6 +1,6 @@
 # Architecture docs require explicit human approval
-/*.md           @santosh
-/docs/          @santosh
+/*.md           @santosh-d3vpl3x
+/docs/          @santosh-d3vpl3x
 
 # All code changes
-/aurora/        @santosh
+/aurora/        @santosh-d3vpl3x
