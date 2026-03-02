@@ -33,6 +33,18 @@ Tasks: `gh issue list --milestone "Phase 0"`
 8. PR: include `closes #N`, spec section references, test summary
 9. After merge: remove `blocked` label from downstream issues if applicable
 
+
+## Unblocking downstream issues
+When a dependency issue is updated/closed (for example, `#4`), remove `blocked` from dependent tasks right away:
+
+```bash
+# Example: issue #7 was blocked by #4
+gh issue edit 7 --remove-label blocked
+
+# Optional: leave an audit comment
+gh issue comment 7 --body "Dependency #4 is resolved; removing blocked label."
+```
+
 ## Rules
 - One issue per PR. One branch per issue.
 - Branch must contain the issue number: `phase0/issue-N-...`
