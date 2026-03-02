@@ -79,6 +79,8 @@ class AuroraSession:
                 "device": selected_route.device,
                 "fallback_policy": fallback_policy,
                 "execution_profile": execution_profile,
+                "single_backend": True,
+                "candidate_count": len(candidates),
             },
         )
 
