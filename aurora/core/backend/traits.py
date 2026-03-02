@@ -8,3 +8,5 @@ class ExecutionBackend(Protocol):
 
     engine: str
     device: str
+
+    def execute(self, query: object) -> dict[str, object]: ...
